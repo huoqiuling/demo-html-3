@@ -1,28 +1,26 @@
-name: NodeJS with Webpack
+name: Build Umi Project
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main # 或者 master，按你的分支来改
   pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # 或你项目用的版本
 
-    - name: Build
-      run: |
-        npm install
-        npm run build
+      - name: Install dependencies
+        run: npm install # 或者 yarn / pnpm install
+
+      - name: Build the project
+        run: npm run build # 默认 umi 项目是这个命令
